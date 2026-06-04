@@ -36,7 +36,6 @@ services:
       EVENTS_URI: "${LAUNCHDARKLY_EVENTS_URI}"
       USE_EVENTS: "true"
       LOG_LEVEL: "info"
-      USE_OTLP: "true"
       LD_ENV_Development: "${LAUNCHDARKLY_SDK_KEY}"
       LD_CLIENT_SIDE_ID_Development: "${LAUNCHDARKLY_CLIENT_SIDE_ID}"
       LD_PREFIX_Development: "${LAUNCHDARKLY_CLIENT_SIDE_ID}"
