@@ -8,3 +8,9 @@ This includes:
 - A C# .NET [Aspire.dev](https://aspire.dev) AppHost
 - A TypeScript [Aspire.dev](https://aspire.dev) AppHost
 - A Docker Compose (published via the .NET AppHost)
+
+## Planned additions
+- Expanded Aspire AppHosts and Docker Compose resources which model more complex application and relay proxy architectures, including:
+    - Event pipelines
+    - Reverse proxies
+    - Integrations with different applications (.NET, Node.js, Python, Java, Go, etc.)
