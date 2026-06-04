@@ -1,0 +1,52 @@
+services:
+  redis:
+    image: "docker.io/library/redis:8.6"
+    command:
+      - "-c"
+      - "redis-server --requirepass $$REDIS_PASSWORD --save 60 1"
+    entrypoint:
+      - "/bin/sh"
+    environment:
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+    expose:
+      - "6379"
+    volumes:
+      - type: "volume"
+        target: "/data"
+        source: "apphost-e7f9f553c0-redis-data"
+        read_only: false
+    networks:
+      - "aspire"
+  ld-relay:
+    image: "launchdarkly/ld-relay:9.0.0-rc.3-static-debian12-nonroot-amd64"
+    environment:
+      ConnectionStrings__redis: "redis:6379,password=${REDIS_PASSWORD}"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REDIS_URI: "redis://:${REDIS_PASSWORD}@redis:6379"
+      services__launchdarkly-stream__default__0: "${LAUNCHDARKLY_STREAM_URI}"
+      LAUNCHDARKLY_STREAM: "${LAUNCHDARKLY_STREAM_URI}"
+      services__launchdarkly-events__default__0: "${LAUNCHDARKLY_EVENTS_URI}"
+      LAUNCHDARKLY_EVENTS: "${LAUNCHDARKLY_EVENTS_URI}"
+      PORT: "8030"
+      USE_REDIS: "true"
+      REDIS_TLS: "false"
+      STREAM_URI: "${LAUNCHDARKLY_STREAM_URI}"
+      EVENTS_URI: "${LAUNCHDARKLY_EVENTS_URI}"
+      USE_EVENTS: "true"
+      LOG_LEVEL: "info"
+      USE_OTLP: "true"
+      LD_ENV_Development: "${LAUNCHDARKLY_SDK_KEY}"
+      LD_CLIENT_SIDE_ID_Development: "${LAUNCHDARKLY_CLIENT_SIDE_ID}"
+      LD_PREFIX_Development: "${LAUNCHDARKLY_CLIENT_SIDE_ID}"
+    expose:
+      - "8030"
+    networks:
+      - "aspire"
+networks:
+  aspire:
+    driver: "bridge"
+volumes:
+  apphost-e7f9f553c0-redis-data:
+    driver: "local"
