@@ -42,12 +42,17 @@ var relayProxy = builder.AddContainer("ld-relay", "launchdarkly/ld-relay:9.0.0-r
     .WithEnvironment(ctx =>
     {
         ctx.EnvironmentVariables["REDIS_TLS"] = ctx.ExecutionContext.IsPublishMode ? "false" : "true";
+
+        // Enable OTLP in non-publish modes to allow telemetry to flow back to Aspire Dashboard
+        if (!ctx.ExecutionContext.IsPublishMode)
+        {
+            ctx.EnvironmentVariables["USE_OTLP"] = "true";
+        }
     })
     .WithEnvironment("STREAM_URI", externalLaunchDarklyStream)
     .WithEnvironment("EVENTS_URI", externalLaunchDarklyEvents)
     .WithEnvironment("USE_EVENTS", "true")
     .WithEnvironment("LOG_LEVEL", "info")
-    .WithEnvironment("USE_OTLP", "true")
     .WithEnvironment($"LD_ENV_{await launchdarklyEnvironmentNameParameter.Resource.GetValueAsync(default)}", launchdarklySdkKeyParameter)
     .WithEnvironment($"LD_CLIENT_SIDE_ID_{await launchdarklyEnvironmentNameParameter.Resource.GetValueAsync(default)}", launchdarklyEnvironmentIdParameter)
     .WithEnvironment($"LD_PREFIX_{await launchdarklyEnvironmentNameParameter.Resource.GetValueAsync(default)}", launchdarklyEnvironmentIdParameter)
