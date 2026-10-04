@@ -7,6 +7,7 @@ The current resources focus on running an ld-relay instance for flag delivery an
 This includes:
 - A C# .NET [Aspire.dev](https://aspire.dev) AppHost
 - A TypeScript [Aspire.dev](https://aspire.dev) AppHost
+- An _experimental_ Go [Aspire.dev](https://aspire.dev) AppHost
 - A Docker Compose (published via the .NET AppHost)
 
 ## Planned additions
