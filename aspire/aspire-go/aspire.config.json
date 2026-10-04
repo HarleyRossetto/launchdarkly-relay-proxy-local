@@ -1,0 +1,22 @@
+{
+  "appHost": {
+    "path": "apphost.go",
+    "language": "go"
+  },
+  "sdk": {
+    "version": "17.0.0-preview.1.26503.2"
+  },
+  "channel": "daily",
+  "profiles": {
+    "https": {
+      "applicationUrl": "https://apphost.dev.localhost:44535;http://apphost.dev.localhost:34830",
+      "environmentVariables": {
+        "ASPIRE_DASHBOARD_OTLP_ENDPOINT_URL": "https://apphost.dev.localhost:44477",
+        "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "https://apphost.dev.localhost:46614"
+      }
+    }
+  },
+  "packages": {
+    "Aspire.Hosting.Redis": "17.0.0-preview.1.26503.2"
+  }
+}
